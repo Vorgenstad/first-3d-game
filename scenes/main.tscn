@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhwkotub1utul"]
+[gd_scene load_steps=7 format=3 uid="uid://dhwkotub1utul"]
 
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_bsbfj"]
 [ext_resource type="PackedScene" uid="uid://yhlpvof3nhq5" path="res://scenes/player.tscn" id="1_ly4ml"]
+[ext_resource type="PackedScene" uid="uid://d3y025xhoagbl" path="res://scenes/mob.tscn" id="2_tgnuc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pa4n8"]
 size = Vector3(60, 2, 60)
@@ -8,7 +10,16 @@ size = Vector3(60, 2, 60)
 [sub_resource type="BoxMesh" id="BoxMesh_a4niv"]
 size = Vector3(60, 2, 60)
 
+[sub_resource type="Curve3D" id="Curve3D_jpcs8"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -8.00717, 0, -13.977, 0, 0, 0, 0, 0, 0, 8.01145, 0, -13.977, 0, 0, 0, 0, 0, 0, 8.01145, 0, 14.8496, 0, 0, 0, 0, 0, 0, -8.04169, 0, 14.9187, 0, 0, 0, 0, 0, 0, -8.00717, 0, -13.977),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
 [node name="Main" type="Node"]
+script = ExtResource("1_bsbfj")
+mob_scene = ExtResource("2_tgnuc")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -33,3 +44,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19)
 projection = 1
 size = 19.0
 far = 100.0
+
+[node name="SpawnPath" type="Path3D" parent="."]
+curve = SubResource("Curve3D_jpcs8")
+
+[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -8.00717, 0, -13.977)
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
