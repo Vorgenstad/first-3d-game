@@ -55,11 +55,14 @@ func calculate_collisions():
 	for index in range(get_slide_collision_count()):
 		var collision = get_slide_collision(index)
 
-		if collision.get_collider() == null:
-			continue
-
-		if collision.get_collider().is_in_group("Mob"):
+		if collided_with_mob_top(collision):
 			var mob = collision.get_collider()
-			if Vector3.UP.dot(collision.get_normal()) > 0.1:
-				mob.squash()
-				target_velocity.y = bounce_impulse
+			mob.squash()
+			target_velocity.y = bounce_impulse
+
+func collided_with_mob_top(collision):
+	return (
+			collision.get_collider() != null
+			and collision.get_collider().is_in_group("Mob")
+			and Vector3.UP.dot(collision.get_normal()) > 0.1
+	)
