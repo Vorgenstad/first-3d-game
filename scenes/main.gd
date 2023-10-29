@@ -11,3 +11,6 @@ func _on_spawn_timer_timeout():
 	mob.initialize(mob_spawn_location.position, $Player.position)
 
 	add_child(mob)
+
+func _on_player_died():
+	$SpawnTimer.stop()

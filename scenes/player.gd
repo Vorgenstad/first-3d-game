@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+signal died
+
 @export var speed = 14
 @export var fall_acceleration = 75
 @export var jump_impulse = 20
@@ -66,3 +68,10 @@ func collided_with_mob_top(collision):
 			and collision.get_collider().is_in_group("Mob")
 			and Vector3.UP.dot(collision.get_normal()) > 0.1
 	)
+
+func die():
+	died.emit()
+	queue_free()
+
+func _on_mob_detector_body_entered(_body):
+	die()
