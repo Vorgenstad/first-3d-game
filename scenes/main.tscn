@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhwkotub1utul"]
+[gd_scene load_steps=12 format=3 uid="uid://dhwkotub1utul"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_bsbfj"]
 [ext_resource type="PackedScene" uid="uid://yhlpvof3nhq5" path="res://scenes/player.tscn" id="1_ly4ml"]
@@ -22,6 +22,14 @@ point_count = 5
 [sub_resource type="Theme" id="Theme_vbyjk"]
 default_font = ExtResource("4_tkgr2")
 default_font_size = 22
+
+[sub_resource type="InputEventKey" id="InputEventKey_a47oq"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_81481"]
+events = [SubResource("InputEventKey_a47oq")]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_bsbfj")
@@ -86,5 +94,34 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Retry" type="ColorRect" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.384314)
+
+[node name="RetryButton" type="Button" parent="UI/Retry"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.0
+offset_top = -29.0
+offset_right = 69.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+shortcut = SubResource("Shortcut_81481")
+text = "Retry 
+(Space)"
+
 [connection signal="died" from="Player" to="." method="_on_player_died"]
+[connection signal="died" from="Player" to="UI" method="_on_player_died"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="pressed" from="UI/Retry/RetryButton" to="." method="_on_retry_button_pressed"]

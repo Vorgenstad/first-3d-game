@@ -16,3 +16,6 @@ func _on_spawn_timer_timeout():
 
 func _on_player_died():
 	$SpawnTimer.stop()
+
+func _on_retry_button_pressed():
+	get_tree().reload_current_scene()
