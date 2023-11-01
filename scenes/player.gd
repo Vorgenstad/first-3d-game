@@ -12,8 +12,6 @@ var target_velocity = Vector3.ZERO
 func _physics_process(delta):
 	calculate_input_velocity(delta)
 	
-	calculate_collisions()
-	
 	velocity = target_velocity
 	
 	move_and_slide()
@@ -58,25 +56,13 @@ func calculate_vertical_velocity(delta):
 	elif Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
 
-func calculate_collisions():
-	for index in range(get_slide_collision_count()):
-		var collision = get_slide_collision(index)
-
-		if collided_with_mob_top(collision):
-			var mob = collision.get_collider()
-			mob.squash()
-			target_velocity.y = bounce_impulse
-
-func collided_with_mob_top(collision):
-	return (
-			collision.get_collider() != null
-			and collision.get_collider().is_in_group("Mob")
-			and Vector3.UP.dot(collision.get_normal()) > 0.1
-	)
-
 func die():
 	died.emit()
 	queue_free()
 
 func _on_mob_detector_body_entered(_body):
 	die()
+
+func _on_hurtbox_body_entered(body):
+	body.squash()
+	target_velocity.y = bounce_impulse

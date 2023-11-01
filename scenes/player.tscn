@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://yhlpvof3nhq5"]
+[gd_scene load_steps=9 format=3 uid="uid://yhlpvof3nhq5"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_0jccc"]
 [ext_resource type="PackedScene" uid="uid://ckkxtsdu5ylpq" path="res://art/player.glb" id="2_50jah"]
@@ -7,8 +7,8 @@
 radius = 0.779863
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_d2vlb"]
-height = 0.117709
-radius = 1.01919
+height = 0.768157
+radius = 1.13049
 
 [sub_resource type="Animation" id="Animation_pqqja"]
 length = 0.001
@@ -72,8 +72,12 @@ _data = {
 "float": SubResource("Animation_yl30e")
 }
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_v5il0"]
+height = 0.18372
+radius = 1.03087
+
 [node name="Player" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 0.992897, -0.11898, 0, 0.11898, 0.992897, 0, 0.315726, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_mask = 6
 script = ExtResource("1_0jccc")
 
@@ -82,7 +86,7 @@ script = ExtResource("1_0jccc")
 [node name="Character" parent="Pivot" instance=ExtResource("2_50jah")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.472908, 0)
+transform = Transform3D(1, 0, 0, 0, 1, -7.45058e-09, 0, 7.45058e-09, 1, 0, 0.472908, 0)
 shape = SubResource("SphereShape3D_yah6c")
 
 [node name="MobDetector" type="Area3D" parent="."]
@@ -92,7 +96,7 @@ collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MobDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.643493, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.518352, 0)
 shape = SubResource("CylinderShape3D_d2vlb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -101,4 +105,13 @@ libraries = {
 "": SubResource("AnimationLibrary_s825o")
 }
 
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.333697, 0)
+shape = SubResource("CylinderShape3D_v5il0")
+
 [connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
