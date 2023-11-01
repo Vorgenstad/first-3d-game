@@ -14,7 +14,7 @@ func initialize(start_position, player_position):
 
 func initialize_position(start_position, player_position):
 	look_at_from_position(start_position, player_position)
-	rotate_y(randf_range(-PI / 4, PI / 4))
+	rotate_y(randf_range(-PI / 8, PI / 8))
 
 func initialize_velocity():
 	var speed = randi_range(min_speed, max_speed)
