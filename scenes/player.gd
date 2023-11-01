@@ -17,6 +17,8 @@ func _physics_process(delta):
 	velocity = target_velocity
 	
 	move_and_slide()
+	
+	$Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
 
 func calculate_input_velocity(delta):
 	calculate_horizontal_velocity()
@@ -44,6 +46,9 @@ func calculate_direction():
 	if direction.length() > 0:
 		direction = direction.normalized()
 		$Pivot.look_at(position + direction)
+		$AnimationPlayer.speed_scale = 4
+	else:
+		$AnimationPlayer.speed_scale = 1
 	
 	return direction
 
